@@ -126,19 +126,21 @@ def return_msg(msg):
 #     return {'name': name, 'surname': surname, 'phone': phone, 'age': age}
 #
 # print(return_dict('Ivan', 'Ivanov', '+380991234567', '25'))
-
-
-a_list = ["1213", 123,12,3,4,5, 5.0, [1231, 1231], {'1':2}]
-print(a_list)
-def general_function(type_str, default_dict, item):
-    if type_str not in default_dict.keys():
-        _list = []
-        _list.append(item)
-        default_dict.update({type_str: _list})
-    else:
-        default_dict.get(type_str).append(item)
-
+#
+#
+# a_list = ["1213", 123,12,3,4,5, 5.0, [1231, 1231], {'1':2}]
+# print(a_list)
+#
+#
 def function_convert(tmp_list):
+    def general_function(type_str, default_dict, item):
+        if type_str not in default_dict.keys():
+            _list = []
+            _list.append(item)
+            default_dict.update({type_str: _list})
+        else:
+            default_dict.get(type_str).append(item)
+
     default_dict = {}
     for item in tmp_list:
         if isinstance(item, int):
@@ -153,4 +155,54 @@ def function_convert(tmp_list):
             general_function('float', default_dict, item)
     print(default_dict)
 
-function_convert(a_list)
+# function_convert(a_list)
+
+def my_decorator(function_to_decorate):
+    def the_wrapper_around_the_original_function ():
+        print("Я - код, который отработает до вызова функции" )
+        function_to_decorate()
+        print("А я - код, срабатывающий после" )
+    return the_wrapper_around_the_original_function
+
+
+# @my_decorator
+# def input_your_name():
+#     name = input('Input your name: ')
+#     print("Your name is {}".format(name))
+#
+# def func():
+#     return 0
+#
+# input_your_name()
+
+import os
+
+# 1. Написать функцию, которая принимает в качетсве аргумента имя директории,
+# и возвращает словарь вида
+# 2. Написать функицю, которая принимает в качестве параметра
+# путь к директории и тип файла (расширение). Нужно
+# вывести список всех найденных файлов с таким расширением.
+# Пример:
+# * input args: '/home', '.mp3'
+# * output: ['file1.mp3', 'file2.mp3', ... , 'fileN.mp3']
+#/home/user/Рабочий стол/Treasure-Hunt
+# 3. Создать функицю, которая принимает в качестве параметра - путь к папке
+# и выполняет слудующие действия: файлы с общим расширением
+# перемещаются в папку с названием расширения. Пример:
+# * file.jpg, file2.jpg -> jpg (файлы с расширением .jpg попали в папку jpg)
+
+
+def func_list_dir(dir_name):
+    dict_ = {}
+    if dir_name in os.listdir():
+        for item in os.listdir(dir_name):
+            ext = item.split('.')[1]
+            if ext not in dict_.keys():
+                dict_.update({ext: 1})
+            else:
+                dict_.update({ext: dict_.get(ext)+1})
+        return dict_
+    else:
+        return 'Error'
+
+print(func_list_dir('1'))
